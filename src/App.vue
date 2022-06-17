@@ -5,7 +5,9 @@
       class="bg-primary"
       dark
     >
-      <v-app-bar-title style="min-width: max-content">Otimizando o Front-end com Vue.js</v-app-bar-title>
+      <v-app-bar-title id="title" style="min-width: max-content">
+        Otimizando o Front-end com Vue.js
+      </v-app-bar-title>
     </v-app-bar>
 
     <v-main class="bg-gradient mt-16">
@@ -21,9 +23,9 @@ import Footer from "@/components/Footer";
 export default {
   name: 'App',
   components: {Footer},
-  data: () => ({
-    //
-  }),
+  mounted() {
+    document.title = document.querySelector('#title').innerText
+  }
 };
 </script>
 
