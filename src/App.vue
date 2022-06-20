@@ -1,15 +1,6 @@
 <template>
   <v-app :id="$options.name">
-    <v-app-bar
-      app
-      class="bg-primary"
-      dark
-    >
-      <v-app-bar-title id="title" style="min-width: max-content">
-        Otimizando o Front-end com Vue.js
-      </v-app-bar-title>
-    </v-app-bar>
-
+    <Header></Header>
     <v-main class="bg-gradient mt-16">
       <router-view/>
     </v-main>
@@ -18,13 +9,18 @@
 </template>
 
 <script>
-
+//import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+
 export default {
   name: 'App',
   components: {Footer},
-  mounted() {
-    document.title = document.querySelector('#title').innerText
+  beforeCreate() {
+    import('@/components/Header')
+        .then(response => {
+          this.$options.components.Header = response.default
+          this.$forceUpdate()
+        }).catch(console.log)
   }
 };
 </script>

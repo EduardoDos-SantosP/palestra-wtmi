@@ -13,7 +13,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/ola-mundo-vue',
+    path: '/' + OlaMundoVue.name,
     name: OlaMundoVue.name,
     component: OlaMundoVue
   },
