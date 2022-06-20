@@ -35,6 +35,7 @@
 <script>
 
 import OlaMundoVue from "@/views/ola-mundo-vue/OlaMundoVue";
+import TodoDiretivas from "@/views/todo-diretivas/TodoDiretivas";
 
 export default {
   name: 'Home',
@@ -44,6 +45,7 @@ export default {
       baseUrl: 'https://github.com/eduardodos-santosp',
       menuItems: [
         this.createMenuItem('Hello World Reativo em Vue', OlaMundoVue.name),
+        this.createMenuItem('Lista de tarefas usando diretivas', TodoDiretivas.name),
         { label: 'Usando o router', uri: 'routed-app' }
       ]
     }
@@ -60,9 +62,10 @@ export default {
   },
   computed: {
     list() {
+      console.log(this.menuItems)
       return this.menuItems.map(item => ({
         ...item,
-        link: `${this.baseUrl}/${item.uri}`
+        link: `${this.baseUrl}/${item.uri.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()}`
       }))
     }
   }
