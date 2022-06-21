@@ -62,7 +62,6 @@ export default {
   },
   computed: {
     list() {
-      console.log(this.menuItems)
       return this.menuItems.map(item => ({
         ...item,
         link: `${this.baseUrl}/${item.uri.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()}`

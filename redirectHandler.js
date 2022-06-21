@@ -1,44 +1,62 @@
 import * as url from "url";
 
-let app;
+const redirectHandler = app => {
 
-const handleInternalLinks = () => {
-    const allLinks = [...document.querySelectorAll('[href]')]
+    let appRoute = (() => {
+        let queryParams = url.parse(window.location.href, true).query
+        return {
+            get: () => queryParams.route?.toString(),
+            set: route => {
+                const location = window.location
+                location.assign(
+                    location.href.split('?')[0] + '?route=' + route
+                )
+            }
+        }
+    })()
 
-    const internalLinks = allLinks.filter(link => {
-        const url = link.getAttribute('href')
-        return link.tagName === 'A' && (!url.startsWith('http') || url.includes(window.location.host))
-    })
+    const init = () => {
+        setRoute()
+        app.$options.netlify = true
 
-    internalLinks.forEach(link => {
-        const query = link.getAttribute('href')
-        link.addEventListener('click', () => {
-            redirect(app, query)
-        })
-        link.removeAttribute('href')
-    })
-}
-
-const redirect = (app, to) => {
-    const routeName = app.$router.resolve(to).route.name
-    // noinspection UnnecessaryLocalVariableJS
-    const componentView = app.$router.options.routes.find(route => route.name === routeName).component
-    app.$options.components.ComponentView = componentView
-    app.$forceUpdate()
-}
-
-export default vueComponent => {
-    if (vueComponent.$options.name !== 'App') return;
-    app = vueComponent
-
-    const queriedRoute = url.parse(window.location.href, true).query.route
-    if (queriedRoute) redirect(app, queriedRoute)
-    app.$options.netlify = true
-
-    app.$options.updated = () => {
-        app.$options.updated()
-        handleInternalLinks()
+        app.$options.updated = () => {
+            app.$options.updated()
+            setRoute()
+            handleInternalLinks()
+        };
+        ['load', 'click'].forEach(event => window.addEventListener(event, handleInternalLinks))
     }
-    window.addEventListener('click', () => handleInternalLinks())
-    handleInternalLinks()
+
+    const handleInternalLinks = () => {
+        const allLinks = [...document.querySelectorAll('a[href]')]
+        const internalLinks = allLinks.filter(link => {
+            const url = link.getAttribute('href')
+            return !url.startsWith('http') || url.includes(window.location.host)
+        })
+
+        internalLinks.forEach(link => {
+            const query = link.getAttribute('href')
+            link.addEventListener('click', () => {
+                redirect(query)
+            })
+            link.removeAttribute('href')
+        })
+    }
+
+    const redirect = (destination) => appRoute.set(destination)
+
+    const setRoute = () => {
+        if (!appRoute.get()) return;
+
+        const routeName = app.$router.resolve(appRoute.get()).route.name
+
+        app.$options.components.ComponentView =
+            app.$router.options.routes.find(route => route.name === routeName)?.component
+        
+        app.$forceUpdate()
+    }
+
+    return {init}
 }
+
+export default vueComponent => redirectHandler(vueComponent).init()

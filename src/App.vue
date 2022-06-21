@@ -18,6 +18,10 @@ export default {
   name: 'App',
   components: {Header, Footer},
   mounted() {
+    import('@/views/main/Home').then(response => {
+      const components = this.$options.components
+      if (!components.ComponentView) components.ComponentView = response.default
+    })
     redirectHandler(this)
   }
 };
