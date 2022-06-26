@@ -31,7 +31,7 @@ const redirectHandler = app => {
         const allLinks = [...document.querySelectorAll('a[href]')]
         const internalLinks = allLinks.filter(link => {
             const url = link.getAttribute('href')
-            return !url.startsWith('http') || url.includes(window.location.host)
+            return !url.startsWith('http')/* || url.includes(window.location.host)*/
         })
 
         internalLinks.forEach(link => {

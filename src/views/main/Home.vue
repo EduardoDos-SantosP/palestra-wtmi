@@ -1,12 +1,11 @@
 <template>
   <v-container :id="$options.name">
-    <v-card class="pa-4 bg-white bg-gradient">
+    <v-card class="pa-4 bg-white bg-gradient elevation-2">
       <v-expansion-panels class="rounded-lg light bg-gradient">
         <v-expansion-panel
             v-for="(item, key) in list"
             :key="key"
-            class="bg-transparent"
-            id="menu-item"
+            class="menu-item bg-transparent"
         >
           <v-expansion-panel-header class="py-0">{{ item.label }}</v-expansion-panel-header>
           <v-expansion-panel-content>
@@ -26,7 +25,19 @@
               </v-list-item>
             </v-list>
           </v-expansion-panel-content>
-        </v-expansion-panel >
+        </v-expansion-panel>
+
+        <div class="v-expansion-panel menu-item bg-transparent">
+          <button @click="goToSlide()"
+             class="v-expansion-panel-header py-0 v-expansion-panel-header"
+          >
+            <span>Download slide</span>
+            <span class="v-expansion-panel-header__icon">
+              <v-icon>mdi-file</v-icon>
+            </span>
+          </button>
+        </div>
+
       </v-expansion-panels>
     </v-card>
   </v-container>
@@ -44,7 +55,7 @@ export default {
     return {
       baseUrl: 'https://github.com/eduardodos-santosp',
       menuItems: [
-        this.createMenuItem('Hello World Reativo em Vue', OlaMundoVue.name),
+        this.createMenuItem('Hello world reativo em vue', OlaMundoVue.name),
         this.createMenuItem('Lista de tarefas usando diretivas', TodoDiretivas.name),
         { label: 'Usando o router', uri: 'routed-app' }
       ]
@@ -58,7 +69,9 @@ export default {
         this.createMenuSubItem('Projeto em execução', uri, 'view-dashboard'),
         this.createMenuSubItem('Código no Github', link, 'application-brackets-outline', '_blank')
       ]
-    }
+    },
+    goToSlide: () =>
+        window.open('https://drive.google.com/file/d/15kx_dLXzn1AUrZA0e58NOq1jf10v6CK9/view?usp=sharing')
   },
   computed: {
     list() {
@@ -75,10 +88,10 @@ export default {
 .v-expansion-panel-header--active {
   min-height: 56px !important;
 }
-#menu-item:before {
+.menu-item:before {
   box-shadow: none !important;
 }
-#menu-item:after {
+.menu-item:after {
   border-top: none !important;
 }
 </style>
