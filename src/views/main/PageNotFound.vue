@@ -4,7 +4,7 @@
       <span class="h1">404</span>
     </v-row>
     <v-row id="r2">
-      <span class="h3 ms-4 me-1">Página não incontrada!</span>
+      <span class="h3 ms-4 me-1">Página não encontrada!</span>
       <v-icon id="icon-404" size="50" color="black">mdi-robot-confused</v-icon>
     </v-row>
     <v-row class="mt-16">
