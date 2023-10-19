@@ -71,7 +71,7 @@ export default {
       ]
     },
     goToSlide: () =>
-        window.open('https://drive.google.com/file/d/15kx_dLXzn1AUrZA0e58NOq1jf10v6CK9/view?usp=sharing')
+        window.open('https://drive.google.com/file/d/1mKdc70DlTu9tJEsaTPzJhCiuVjozNrSU/view?usp=share_link')
   },
   computed: {
     list() {
